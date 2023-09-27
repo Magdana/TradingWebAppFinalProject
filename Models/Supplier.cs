@@ -13,18 +13,18 @@ namespace TradingWebAppFinalProject.Models
         public string CompanyCode { get; set; }
         [Required]
         [MaxLength(50)]
-        [MinLength(2, ErrorMessage ="Name contains minimum 2 symbols!")]
-        public string CompanyName {  get; set; }
+        [MinLength(2, ErrorMessage = "Name contains minimum 2 symbols!")]
+        public string CompanyName { get; set; }
         [Required]
         [MaxLength(70)]
         public string ContactFullName { get; set; }
         [Required]
-        public City CityId { get; set; }
-        [Required]
-        public Country CountryId { get; set; }
-        public int Phone {  get; set; }
+        public City City { get; set; }
+        //[Required]
+        //public Country Country { get; set; }
+        public int Phone { get; set; }
         public int Fax { get; set; }
-        public string WebSite { get; set;}
+        public string WebSite { get; set; }
 
     }
 }

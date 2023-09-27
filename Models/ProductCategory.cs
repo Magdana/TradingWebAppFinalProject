@@ -10,7 +10,7 @@ namespace TradingWebAppFinalProject.Models
         public int Id { get; set; }
         [Required]
         [StringLength(9)]
-        public string Code {  get; set; }
+        public string Code { get; set; }
         [Required]
         [MaxLength(70)]
         public string Name { get; set; }

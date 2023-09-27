@@ -3,10 +3,11 @@ using TradingWebAppFinalProject.Data.DTO;
 
 namespace TradingWebAppFinalProject.Helper
 {
-    public class CountryAutoMapper: Profile
+    public class CountryAutoMapperProfile : Profile
     {
-        public CountryAutoMapper()
+        public CountryAutoMapperProfile()
         {
+
             CreateMap<Country, CountryDTO>();
             CreateMap<CountryDTO, Country>();
         }

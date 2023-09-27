@@ -5,7 +5,7 @@
 namespace TradingWebAppFinalProject.Migrations
 {
     /// <inheritdoc />
-    public partial class SecondMigration : Migration
+    public partial class _12 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

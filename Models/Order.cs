@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public  class Order
+public class Order
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,7 +12,8 @@ public  class Order
     [MaxLength(9)]
     public int OrderNumber { get; set; }
     [Required]
-    public Customer CustomerId { get; set; }
+    public Customer Customer { get; set; }
     [Required]
     public int TotalAmount { get; set; }
+    
 }

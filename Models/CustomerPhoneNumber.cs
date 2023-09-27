@@ -9,10 +9,10 @@ public class CustomerPhoneNumber
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [Required]
-    public PhoneType PhoneTypeId { get; set; }
+    public PhoneType PhoneType { get; set; }
     [Required]
     public PhoneNumbersList PhoneNumber { get; set; } = null!;
     [Required]
-    public Customer CustomerId { get; set; }
+    public Customer Customer { get; set; }
 
 }

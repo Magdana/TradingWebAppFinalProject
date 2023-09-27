@@ -6,11 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TradingWebAppFinalProject.Migrations
 {
     /// <inheritdoc />
-    public partial class _5thMigration : Migration
+    public partial class _1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Countries",
+                columns: table => new
+                {
+                    CountryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CountryCode = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    CountryName = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Countries", x => x.CountryId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "DiscountOrNots",
                 columns: table => new
@@ -66,7 +80,7 @@ namespace TradingWebAppFinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductCategories",
+                name: "ProductCategorys",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -76,7 +90,7 @@ namespace TradingWebAppFinalProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductCategories", x => x.Id);
+                    table.PrimaryKey("PK_ProductCategorys", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,38 +104,6 @@ namespace TradingWebAppFinalProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RelationshipTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Suppliers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyCode = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
-                    CompanyName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ContactFullName = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
-                    CityIdId = table.Column<int>(type: "int", nullable: false),
-                    CountryIdId = table.Column<int>(type: "int", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: false),
-                    Fax = table.Column<int>(type: "int", nullable: false),
-                    WebSite = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Suppliers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Suppliers_Cities_CityIdId",
-                        column: x => x.CityIdId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Suppliers_Countries_CountryIdId",
-                        column: x => x.CountryIdId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,6 +121,26 @@ namespace TradingWebAppFinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ContainingCountryCountryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cities_Countries_ContainingCountryCountryId",
+                        column: x => x.ContainingCountryCountryId,
+                        principalTable: "Countries",
+                        principalColumn: "CountryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -146,15 +148,15 @@ namespace TradingWebAppFinalProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CategoryIdId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_ProductCategories_CategoryIdId",
-                        column: x => x.CategoryIdId,
-                        principalTable: "ProductCategories",
+                        name: "FK_Products_ProductCategorys_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "ProductCategorys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -167,85 +169,50 @@ namespace TradingWebAppFinalProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    GenderIdId = table.Column<int>(type: "int", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: false),
                     PersonalNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CityIdId = table.Column<int>(type: "int", nullable: false),
-                    CountryIdId = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RelationshipTypeId = table.Column<int>(type: "int", nullable: false)
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customers_Cities_CityIdId",
-                        column: x => x.CityIdId,
+                        name: "FK_Customers_Cities_CityId",
+                        column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Customers_Countries_CountryIdId",
-                        column: x => x.CountryIdId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Customers_Genders_GenderIdId",
-                        column: x => x.GenderIdId,
+                        name: "FK_Customers_Genders_GenderId",
+                        column: x => x.GenderId,
                         principalTable: "Genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Customers_RelationshipTypes_RelationshipTypeId",
-                        column: x => x.RelationshipTypeId,
-                        principalTable: "RelationshipTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Warehouses",
+                name: "Suppliers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OperationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DocNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ProductIdId = table.Column<int>(type: "int", nullable: false),
-                    SupplierIdId = table.Column<int>(type: "int", nullable: false),
-                    UnitIdId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UnitPrice = table.Column<double>(type: "float", nullable: false),
-                    RealizationPrice = table.Column<double>(type: "float", nullable: false),
-                    ProductId1 = table.Column<int>(type: "int", nullable: false)
+                    CompanyCode = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ContactFullName = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<int>(type: "int", nullable: false),
+                    Fax = table.Column<int>(type: "int", nullable: false),
+                    WebSite = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Warehouses", x => x.Id);
+                    table.PrimaryKey("PK_Suppliers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Warehouses_Products_ProductId1",
-                        column: x => x.ProductId1,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Warehouses_Products_ProductIdId",
-                        column: x => x.ProductIdId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Warehouses_Suppliers_SupplierIdId",
-                        column: x => x.SupplierIdId,
-                        principalTable: "Suppliers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Warehouses_Units_UnitIdId",
-                        column: x => x.UnitIdId,
-                        principalTable: "Units",
+                        name: "FK_Suppliers_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -256,16 +223,16 @@ namespace TradingWebAppFinalProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneTypeIdId = table.Column<int>(type: "int", nullable: false),
+                    PhoneTypeId = table.Column<int>(type: "int", nullable: false),
                     PhoneNumberId = table.Column<int>(type: "int", nullable: false),
-                    CustomerIdId = table.Column<int>(type: "int", nullable: false)
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CustomerPhoneNumbers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CustomerPhoneNumbers_Customers_CustomerIdId",
-                        column: x => x.CustomerIdId,
+                        name: "FK_CustomerPhoneNumbers_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -276,8 +243,8 @@ namespace TradingWebAppFinalProject.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CustomerPhoneNumbers_PhoneTypes_PhoneTypeIdId",
-                        column: x => x.PhoneTypeIdId,
+                        name: "FK_CustomerPhoneNumbers_PhoneTypes_PhoneTypeId",
+                        column: x => x.PhoneTypeId,
                         principalTable: "PhoneTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -289,29 +256,27 @@ namespace TradingWebAppFinalProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RelationshipTypeIdId = table.Column<int>(type: "int", nullable: false),
-                    StartCustomerIdId = table.Column<int>(type: "int", nullable: false),
-                    EndCustomerIdId = table.Column<int>(type: "int", nullable: false),
+                    RelationshipTypeId = table.Column<int>(type: "int", nullable: false),
+                    StartCustomerId = table.Column<int>(type: "int", nullable: true),
+                    EndCustomerId = table.Column<int>(type: "int", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CustomersRelationships", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CustomersRelationships_Customers_EndCustomerIdId",
-                        column: x => x.EndCustomerIdId,
+                        name: "FK_CustomersRelationships_Customers_EndCustomerId",
+                        column: x => x.EndCustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CustomersRelationships_Customers_StartCustomerIdId",
-                        column: x => x.StartCustomerIdId,
+                        name: "FK_CustomersRelationships_Customers_StartCustomerId",
+                        column: x => x.StartCustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CustomersRelationships_RelationshipTypes_RelationshipTypeIdId",
-                        column: x => x.RelationshipTypeIdId,
+                        name: "FK_CustomersRelationships_RelationshipTypes_RelationshipTypeId",
+                        column: x => x.RelationshipTypeId,
                         principalTable: "RelationshipTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -325,15 +290,15 @@ namespace TradingWebAppFinalProject.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderNumber = table.Column<int>(type: "int", maxLength: 9, nullable: false),
-                    CustomerIdId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     TotalAmount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerIdId",
-                        column: x => x.CustomerIdId,
+                        name: "FK_Orders_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -345,8 +310,8 @@ namespace TradingWebAppFinalProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderIdId = table.Column<int>(type: "int", nullable: false),
-                    ProductIdId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<double>(type: "float", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     IsDiscountedId = table.Column<int>(type: "int", nullable: false),
@@ -362,23 +327,28 @@ namespace TradingWebAppFinalProject.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderIdId",
-                        column: x => x.OrderIdId,
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Products_ProductIdId",
-                        column: x => x.ProductIdId,
+                        name: "FK_OrderItems_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerPhoneNumbers_CustomerIdId",
+                name: "IX_Cities_ContainingCountryCountryId",
+                table: "Cities",
+                column: "ContainingCountryCountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerPhoneNumbers_CustomerId",
                 table: "CustomerPhoneNumbers",
-                column: "CustomerIdId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerPhoneNumbers_PhoneNumberId",
@@ -386,44 +356,34 @@ namespace TradingWebAppFinalProject.Migrations
                 column: "PhoneNumberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerPhoneNumbers_PhoneTypeIdId",
+                name: "IX_CustomerPhoneNumbers_PhoneTypeId",
                 table: "CustomerPhoneNumbers",
-                column: "PhoneTypeIdId");
+                column: "PhoneTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_CityIdId",
+                name: "IX_Customers_CityId",
                 table: "Customers",
-                column: "CityIdId");
+                column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_CountryIdId",
+                name: "IX_Customers_GenderId",
                 table: "Customers",
-                column: "CountryIdId");
+                column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_GenderIdId",
-                table: "Customers",
-                column: "GenderIdId");
+                name: "IX_CustomersRelationships_EndCustomerId",
+                table: "CustomersRelationships",
+                column: "EndCustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_RelationshipTypeId",
-                table: "Customers",
+                name: "IX_CustomersRelationships_RelationshipTypeId",
+                table: "CustomersRelationships",
                 column: "RelationshipTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomersRelationships_EndCustomerIdId",
+                name: "IX_CustomersRelationships_StartCustomerId",
                 table: "CustomersRelationships",
-                column: "EndCustomerIdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomersRelationships_RelationshipTypeIdId",
-                table: "CustomersRelationships",
-                column: "RelationshipTypeIdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomersRelationships_StartCustomerIdId",
-                table: "CustomersRelationships",
-                column: "StartCustomerIdId");
+                column: "StartCustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_IsDiscountedId",
@@ -431,54 +391,29 @@ namespace TradingWebAppFinalProject.Migrations
                 column: "IsDiscountedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_OrderIdId",
+                name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
-                column: "OrderIdId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ProductIdId",
+                name: "IX_OrderItems_ProductId",
                 table: "OrderItems",
-                column: "ProductIdId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerIdId",
+                name: "IX_Orders_CustomerId",
                 table: "Orders",
-                column: "CustomerIdId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryIdId",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "CategoryIdId");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suppliers_CityIdId",
+                name: "IX_Suppliers_CityId",
                 table: "Suppliers",
-                column: "CityIdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Suppliers_CountryIdId",
-                table: "Suppliers",
-                column: "CountryIdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Warehouses_ProductId1",
-                table: "Warehouses",
-                column: "ProductId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Warehouses_ProductIdId",
-                table: "Warehouses",
-                column: "ProductIdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Warehouses_SupplierIdId",
-                table: "Warehouses",
-                column: "SupplierIdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Warehouses_UnitIdId",
-                table: "Warehouses",
-                column: "UnitIdId");
+                column: "CityId");
         }
 
         /// <inheritdoc />
@@ -494,13 +429,19 @@ namespace TradingWebAppFinalProject.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "Warehouses");
+                name: "Suppliers");
+
+            migrationBuilder.DropTable(
+                name: "Units");
 
             migrationBuilder.DropTable(
                 name: "PhoneNumbersLists");
 
             migrationBuilder.DropTable(
                 name: "PhoneTypes");
+
+            migrationBuilder.DropTable(
+                name: "RelationshipTypes");
 
             migrationBuilder.DropTable(
                 name: "DiscountOrNots");
@@ -512,22 +453,19 @@ namespace TradingWebAppFinalProject.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Suppliers");
-
-            migrationBuilder.DropTable(
-                name: "Units");
-
-            migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "ProductCategories");
+                name: "ProductCategorys");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Genders");
 
             migrationBuilder.DropTable(
-                name: "RelationshipTypes");
+                name: "Countries");
         }
     }
 }

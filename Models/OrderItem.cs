@@ -7,15 +7,24 @@ public class OrderItem
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [Required]
-    public Order OrderId { get; set; }
+    public Order Order { get; set; }
     [Required]
-    public Product ProductId { get; set; }
+    public Product Product { get; set; }
     [Required]
     public double UnitPrice { get; set; }
     [Required]
     public int Quantity { get; set; }
     [Required]
-    public DiscountOrNot IsDiscounted { get; set; }
+    public bool IsDiscounted { get; set; }
 
-    public double DiscountPrice { get; set; }
+    public double? DiscountPrice { get; set; }
+    [NotMapped] 
+    public double? PriceWithDiscount
+    {
+        get
+        {
+            return UnitPrice-DiscountPrice;
+        }
+    }
+   
 }

@@ -20,15 +20,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\Interfaces\" />
-    <Folder Include="Repositories\Repostiories\" />
-    <Folder Include="Services\ServiceClasses\" />
-    <Folder Include="Services\ServiceInterfaces\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

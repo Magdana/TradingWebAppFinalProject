@@ -30,7 +30,7 @@ namespace TradingWebAppFinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContainingCountryId")
+                    b.Property<int>("ContainingCountryCountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -40,29 +40,30 @@ namespace TradingWebAppFinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContainingCountryId");
+                    b.HasIndex("ContainingCountryCountryId");
 
                     b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Country", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CountryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"));
 
-                    b.Property<int>("CountryCode")
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
                         .HasMaxLength(9)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<string>("CountryName")
                         .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CountryId");
 
                     b.ToTable("Countries");
                 });
@@ -78,10 +79,10 @@ namespace TradingWebAppFinalProject.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CityIdId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountryIdId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -93,7 +94,10 @@ namespace TradingWebAppFinalProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("GenderIdId")
+                    b.Property<string>("FullAddres")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -106,16 +110,21 @@ namespace TradingWebAppFinalProject.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
-                    b.Property<int>("RelationshipTypeId")
+                    b.Property<int?>("PhoneNumbersListId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RelationshipTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityIdId");
+                    b.HasIndex("CityId");
 
-                    b.HasIndex("CountryIdId");
+                    b.HasIndex("CountryId");
 
-                    b.HasIndex("GenderIdId");
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("PhoneNumbersListId");
 
                     b.HasIndex("RelationshipTypeId");
 
@@ -130,22 +139,22 @@ namespace TradingWebAppFinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerIdId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int>("PhoneNumberId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PhoneTypeIdId")
+                    b.Property<int>("PhoneTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerIdId");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("PhoneNumberId");
 
-                    b.HasIndex("PhoneTypeIdId");
+                    b.HasIndex("PhoneTypeId");
 
                     b.ToTable("CustomerPhoneNumbers");
                 });
@@ -162,45 +171,24 @@ namespace TradingWebAppFinalProject.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("EndCustomerIdId")
+                    b.Property<int?>("EndCustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RelationshipTypeIdId")
+                    b.Property<int>("RelationshipTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StartCustomerIdId")
+                    b.Property<int?>("StartCustomerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EndCustomerIdId");
+                    b.HasIndex("EndCustomerId");
 
-                    b.HasIndex("RelationshipTypeIdId");
+                    b.HasIndex("RelationshipTypeId");
 
-                    b.HasIndex("StartCustomerIdId");
+                    b.HasIndex("StartCustomerId");
 
                     b.ToTable("CustomersRelationships");
-                });
-
-            modelBuilder.Entity("DiscountOrNot", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool?>("IsDiscounted")
-                        .IsRequired()
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsNotDisqounted")
-                        .IsRequired()
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DiscountOrNots");
                 });
 
             modelBuilder.Entity("Order", b =>
@@ -211,7 +199,7 @@ namespace TradingWebAppFinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerIdId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderDate")
@@ -226,7 +214,7 @@ namespace TradingWebAppFinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerIdId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -239,16 +227,16 @@ namespace TradingWebAppFinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("DiscountPrice")
+                    b.Property<double?>("DiscountPrice")
                         .HasColumnType("float");
 
-                    b.Property<int>("IsDiscountedId")
+                    b.Property<bool>("IsDiscounted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderIdId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductIdId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -259,41 +247,11 @@ namespace TradingWebAppFinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDiscountedId");
+                    b.HasIndex("OrderId");
 
-                    b.HasIndex("OrderIdId");
-
-                    b.HasIndex("ProductIdId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryIdId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryIdId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("TradingWebAppFinalProject.Models.Gender", b =>
@@ -321,17 +279,20 @@ namespace TradingWebAppFinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("PrimaryPhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SecondPhoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<int?>("PhoneTypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhoneTypeId");
 
                     b.ToTable("PhoneNumbersLists");
                 });
@@ -354,6 +315,60 @@ namespace TradingWebAppFinalProject.Migrations
                     b.ToTable("PhoneTypes");
                 });
 
+            modelBuilder.Entity("TradingWebAppFinalProject.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<bool>("Discount")
+                        .HasColumnType("bit");
+
+                    b.Property<double?>("DiscountAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("ManufacturingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<double>("RealizationPrice")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("ShelfLife")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UnitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("TradingWebAppFinalProject.Models.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -374,7 +389,7 @@ namespace TradingWebAppFinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategorys");
                 });
 
             modelBuilder.Entity("TradingWebAppFinalProject.Models.RelationshipType", b =>
@@ -403,7 +418,7 @@ namespace TradingWebAppFinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CityIdId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyCode")
@@ -421,9 +436,6 @@ namespace TradingWebAppFinalProject.Migrations
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
 
-                    b.Property<int>("CountryIdId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Fax")
                         .HasColumnType("int");
 
@@ -436,9 +448,7 @@ namespace TradingWebAppFinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityIdId");
-
-                    b.HasIndex("CountryIdId");
+                    b.HasIndex("CityId");
 
                     b.ToTable("Suppliers");
                 });
@@ -458,72 +468,18 @@ namespace TradingWebAppFinalProject.Migrations
 
                     b.Property<string>("ShortName")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("Warehouse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DocNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("OperationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductIdId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<double>("RealizationPrice")
-                        .HasColumnType("float");
-
-                    b.Property<int>("SupplierIdId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitIdId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId1");
-
-                    b.HasIndex("ProductIdId");
-
-                    b.HasIndex("SupplierIdId");
-
-                    b.HasIndex("UnitIdId");
-
-                    b.ToTable("Warehouses");
-                });
-
             modelBuilder.Entity("City", b =>
                 {
                     b.HasOne("Country", "ContainingCountry")
                         .WithMany()
-                        .HasForeignKey("ContainingCountryId")
+                        .HasForeignKey("ContainingCountryCountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -532,44 +488,42 @@ namespace TradingWebAppFinalProject.Migrations
 
             modelBuilder.Entity("Customer", b =>
                 {
-                    b.HasOne("City", "CityId")
+                    b.HasOne("City", "City")
                         .WithMany()
-                        .HasForeignKey("CityIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
-                    b.HasOne("Country", "CountryId")
+                    b.HasOne("Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
-                    b.HasOne("TradingWebAppFinalProject.Models.Gender", "GenderId")
+                    b.HasOne("TradingWebAppFinalProject.Models.Gender", "Gender")
                         .WithMany()
-                        .HasForeignKey("GenderIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenderId");
+
+                    b.HasOne("TradingWebAppFinalProject.Models.PhoneNumbersList", "PhoneNumbersList")
+                        .WithMany()
+                        .HasForeignKey("PhoneNumbersListId");
 
                     b.HasOne("TradingWebAppFinalProject.Models.RelationshipType", "RelationshipType")
                         .WithMany()
-                        .HasForeignKey("RelationshipTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RelationshipTypeId");
 
-                    b.Navigation("CityId");
+                    b.Navigation("City");
 
-                    b.Navigation("CountryId");
+                    b.Navigation("Country");
 
-                    b.Navigation("GenderId");
+                    b.Navigation("Gender");
+
+                    b.Navigation("PhoneNumbersList");
 
                     b.Navigation("RelationshipType");
                 });
 
             modelBuilder.Entity("CustomerPhoneNumber", b =>
                 {
-                    b.HasOne("Customer", "CustomerId")
+                    b.HasOne("Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerIdId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -579,147 +533,110 @@ namespace TradingWebAppFinalProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TradingWebAppFinalProject.Models.PhoneType", "PhoneTypeId")
+                    b.HasOne("TradingWebAppFinalProject.Models.PhoneType", "PhoneType")
                         .WithMany()
-                        .HasForeignKey("PhoneTypeIdId")
+                        .HasForeignKey("PhoneTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerId");
+                    b.Navigation("Customer");
 
                     b.Navigation("PhoneNumber");
 
-                    b.Navigation("PhoneTypeId");
+                    b.Navigation("PhoneType");
                 });
 
             modelBuilder.Entity("CustomersRelationship", b =>
                 {
-                    b.HasOne("Customer", "EndCustomerId")
+                    b.HasOne("Customer", "EndCustomer")
                         .WithMany()
-                        .HasForeignKey("EndCustomerIdId")
+                        .HasForeignKey("EndCustomerId");
+
+                    b.HasOne("TradingWebAppFinalProject.Models.RelationshipType", "RelationshipType")
+                        .WithMany()
+                        .HasForeignKey("RelationshipTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TradingWebAppFinalProject.Models.RelationshipType", "RelationshipTypeId")
+                    b.HasOne("Customer", "StartCustomer")
                         .WithMany()
-                        .HasForeignKey("RelationshipTypeIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StartCustomerId");
 
-                    b.HasOne("Customer", "StartCustomerId")
-                        .WithMany()
-                        .HasForeignKey("StartCustomerIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("EndCustomer");
 
-                    b.Navigation("EndCustomerId");
+                    b.Navigation("RelationshipType");
 
-                    b.Navigation("RelationshipTypeId");
-
-                    b.Navigation("StartCustomerId");
+                    b.Navigation("StartCustomer");
                 });
 
             modelBuilder.Entity("Order", b =>
                 {
-                    b.HasOne("Customer", "CustomerId")
-                        .WithMany()
-                        .HasForeignKey("CustomerIdId")
+                    b.HasOne("Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerId");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("OrderItem", b =>
                 {
-                    b.HasOne("DiscountOrNot", "IsDiscounted")
+                    b.HasOne("Order", "Order")
                         .WithMany()
-                        .HasForeignKey("IsDiscountedId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Order", "OrderId")
+                    b.HasOne("TradingWebAppFinalProject.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("OrderIdId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Product", "ProductId")
-                        .WithMany()
-                        .HasForeignKey("ProductIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Order");
 
-                    b.Navigation("IsDiscounted");
-
-                    b.Navigation("OrderId");
-
-                    b.Navigation("ProductId");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Product", b =>
+            modelBuilder.Entity("TradingWebAppFinalProject.Models.PhoneNumbersList", b =>
                 {
-                    b.HasOne("TradingWebAppFinalProject.Models.ProductCategory", "CategoryId")
+                    b.HasOne("TradingWebAppFinalProject.Models.PhoneType", "PhoneType")
                         .WithMany()
-                        .HasForeignKey("CategoryIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PhoneTypeId");
 
-                    b.Navigation("CategoryId");
+                    b.Navigation("PhoneType");
+                });
+
+            modelBuilder.Entity("TradingWebAppFinalProject.Models.Product", b =>
+                {
+                    b.HasOne("TradingWebAppFinalProject.Models.ProductCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("TradingWebAppFinalProject.Models.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("TradingWebAppFinalProject.Models.Supplier", b =>
                 {
-                    b.HasOne("City", "CityId")
+                    b.HasOne("City", "City")
                         .WithMany()
-                        .HasForeignKey("CityIdId")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Country", "CountryId")
-                        .WithMany()
-                        .HasForeignKey("CountryIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CityId");
-
-                    b.Navigation("CountryId");
+                    b.Navigation("City");
                 });
 
-            modelBuilder.Entity("Warehouse", b =>
+            modelBuilder.Entity("Customer", b =>
                 {
-                    b.HasOne("Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Product", "ProductId")
-                        .WithMany()
-                        .HasForeignKey("ProductIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TradingWebAppFinalProject.Models.Supplier", "SupplierId")
-                        .WithMany()
-                        .HasForeignKey("SupplierIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TradingWebAppFinalProject.Models.Unit", "UnitId")
-                        .WithMany()
-                        .HasForeignKey("UnitIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductId");
-
-                    b.Navigation("SupplierId");
-
-                    b.Navigation("UnitId");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

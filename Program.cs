@@ -1,5 +1,7 @@
+global using TradingWebAppFinalProject.Models;
 using Microsoft.EntityFrameworkCore;
 using TradingWebAppFinalProject.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,21 +1,35 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using TradingWebAppFinalProject.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using TradingWebAppFinalProject.Data.DTO;
 
-public class Product
+namespace TradingWebAppFinalProject.Models
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-    [Required]
-    [StringLength(9)]
-    public string Code { get; set; } = null!;
-    [Required]
-    [MaxLength(100)]
-    [MinLength(2, ErrorMessage = "Minimum length is 2 characters.")]
-    public string Name { get; set; } = null!;
-    [Required]
-    public ProductCategory CategoryId { get; set; }
-
-    public virtual ICollection<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
+    public class Product
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [StringLength(9)]
+        public string Code { get; set; } = null!;
+        [MaxLength(100)]
+        [MinLength(2, ErrorMessage = "Minimum length is 2 characters.")]
+        public string Name { get; set; } = null!;
+        public ProductCategory? Category { get; set; }
+        public double Price { get; set; }
+        public Unit? Unit { get; set; }
+        public int Quantity { get; set; }
+        public double RealizationPrice { get; set; }
+        public bool Discount { get; set; }
+        public double? DiscountAmount { get; set; }
+        public DateTime? ManufacturingDate { get; set; }
+        public DateTime? ShelfLife { get; set; }
+        //[NotMapped]
+        //public DateTime? ExpiryDate
+        //{
+        //    get
+        //    {
+        //        return ManufacturingDate + ShelfLife;
+        //    }
+        //}
+    }
 }

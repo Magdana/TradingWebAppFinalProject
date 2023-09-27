@@ -7,14 +7,14 @@ namespace TradingWebAppFinalProject.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id {  get; set; }
-        [Required]
+        public int Id { get; set; }
         [MinLength(4, ErrorMessage = "Minimum length is 2 characters.")]
         [MaxLength(50, ErrorMessage = "Maximum length is 50 characters.")]
-        public string PrimaryPhoneNumber { get; set; }
-        [MinLength(4, ErrorMessage = "Minimum length is 2 characters.")]
-        [MaxLength(50, ErrorMessage = "Maximum length is 50 characters.")]
-        public string SecondPhoneNumber { get; set; }
-       
+        public PhoneType? PhoneType { get; set; }
+        [StringLength(9)]
+        public string PhoneNumber { get; set; }
+        //public Customer? Customer { get; set; }
+        public bool IsMain {  get; set; }
+
     }
 }
